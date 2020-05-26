@@ -34,7 +34,7 @@ nothingForDelete = 'Удалять больше нечего'
 helpMessage = "тебе серьезно нужна помощь, чтобы осилить бота? F."
 whatDoYouWantAdd = "Что добавим в список дел?"
 isAddedTask = 'Задача добавлена!'
-emptyQuery = "Не пиши ерунды :)"
+emptyQuery = "Не пиши ерунды, пожалуйста:)"
 
 schedule = "Ваше расписание"
 selectDate = "Пожалуйста, выберите дату"
