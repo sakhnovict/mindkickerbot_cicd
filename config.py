@@ -29,7 +29,7 @@ addEventLabel = "Добавить мероприятие"
 
 # Стандартные сообщения
 mainMenuMessage = "Чем займемся?"
-deleteTaskMessage = 'Кликни на задачу, чтобы удалить!'
+deleteTaskMessage = 'Кликни на задачу, чтобы изменить!'
 nothingForDelete = 'Удалять больше нечего'
 helpMessage = "тебе серьезно нужна помощь, чтобы осилить бота? F."
 whatDoYouWantAdd = "Что добавим в список дел?"
