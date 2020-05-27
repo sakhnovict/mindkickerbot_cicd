@@ -36,7 +36,7 @@ def click(row, col, chat_id,message_id):
         if game_run and cross_count < 5:
             computer_move(chat_id, field)
             check_win('⭕️', chat_id)
-        if not cross_count < 5:
+        if cross_count >= 5:
             bot.send_message(chat_id=chat_id, text='Ничья '+  '\nНажми на кнопку "Новая игра", если ночешь сыкрать еще раз\nИли на кнопку "Назад", если хочешь вернутся в гланое меню', reply_markup=None)
             
 
