@@ -94,22 +94,22 @@ def can_win(field, smb, chat_id, col=[0,1,2], row=[0,1,2]):
 
 def computer_move(chat_id, field):
     for n in range(3):
-        if can_win(field, '⭕️',chat_id, col=[n,n,n]):
-            return 
-        if can_win(field, '⭕️', chat_id, row=[n,n,n]):
-            return 
-    if can_win(field, '⭕️', chat_id):
-        return 
-    if can_win(field, '⭕️', chat_id,col=[2,1,0], row=[0,1,2]):
-        return
-    for n in range(3):
         if can_win(field, '❌',chat_id, col=[n,n,n]):
             return 
         if can_win(field, '❌', chat_id, row=[n,n,n]):
-            return
+            return 
     if can_win(field, '❌', chat_id):
+        return 
+    if can_win(field, '❌', chat_id,col=[2,1,0], row=[0,1,2]):
         return
-    if can_win(field, '❌', chat_id, col=[2,1,0], row=[0,1,2]):
+    for n in range(3):
+        if can_win(field, '⭕️',chat_id, col=[n,n,n]):
+            return 
+        if can_win(field, '⭕️', chat_id, row=[n,n,n]):
+            return
+    if can_win(field, '⭕️', chat_id):
+        return
+    if can_win(field, '⭕️', chat_id, col=[2,1,0], row=[0,1,2]):
         return
     while True:
         row = random.randint(0, 2)
