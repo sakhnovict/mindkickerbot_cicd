@@ -1,11 +1,24 @@
-import json
-import os.path
 from operator import itemgetter
+import pymongo
+from pymongo import MongoClient
+
 class DatabasesHelper:
     def __init__(self):
         self.encoding = 'utf-8'
-        self.dirPath = 'databases/'
-        self.tailPath = '.json'
+        self.mongoUrl = "mongodb+srv://vic:1234@cluster0-l0zc3.mongodb.net/test?retryWrites=true&w=majority"
+        self.client = MongoClient(self.mongoUrl)
+        self.db = self.client.users
+
+
+    def find_document(self, collection, elements, multiple=False):
+        """ Function to retrieve single or multiple documents from a provided
+        Collection using a dictionary containing a document's elements.
+        """
+        if multiple:
+            results = collection.find(elements)
+            return [r for r in results]
+        else:
+            return collection.find_one(elements)
 
     def createUserDatabase(self, chatId):
         """
@@ -20,24 +33,29 @@ class DatabasesHelper:
             id чата.
         
         """
-        filePath = self.dirPath + str(chatId) + self.tailPath
-        if not os.path.isfile(filePath):
-            with open(filePath, "w", encoding=self.encoding) as file:
-                default = {
-                    'prevMenuId': 0,
-                    'status': 0,
-                    'tasks': [],
-                    'reminds': 'OFF',
-                    'events': [],
-                    'timetable':[],
-                    'date':'',
-                    'el':'',
-                    'patterns':[],
-                    'game_run': True,
-                    'field': [],
-                    'cross_count': 0
-                }
-                json.dump(default, file)
+        chatId = str(chatId)
+
+        collectionsList = self.db.list_collection_names()
+
+        if chatId not in collectionsList:
+            default = {
+                '_id': chatId,
+                'prevMenuId': 0,
+                'status': 0,
+                'tasks': [],
+                'reminds': 'OFF',
+                'events': [],
+                'timetable':[],
+                'date':'',
+                'el':'',
+                'patterns':[],
+                'game_run': True,
+                'field': [],
+                'cross_count': 0
+            }
+            newCollection = self.db[chatId]
+            newCollection.insert_one(default)
+
             return True
         else:
             return False
@@ -60,22 +78,18 @@ class DatabasesHelper:
             Новое значение
         """
         chatId = str(chatId)
+        
         try:
-            data = {}
-            filePath = self.dirPath + chatId + self.tailPath
             self.createUserDatabase(chatId)
+            data = self.find_document(self.db[chatId], {"_id": chatId})
 
-            with open(filePath, 'r', encoding=self.encoding) as file:
-                data = json.load(file)
-
-            if whatSave == 'all':
-                data = newValue
-            else:
-                data[whatSave] = newValue
+            
+            data[whatSave] = newValue
             data["tasks"].sort(key=itemgetter('taskPrior'))
-            with open(filePath, "w", encoding=self.encoding) as file:
-                json.dump(data, file)
+            self.db[chatId].update_one({"_id": chatId}, {'$set': {whatSave: newValue}})
+
             return True
+
         except Exception as e:
             error = [e, "Open file error"]
             print(error)
@@ -93,15 +107,15 @@ class DatabasesHelper:
         whatGet
             Что вернуть
         """
+        chatId = str(chatId)
         self.createUserDatabase(chatId)
-        filePath = self.dirPath + str(chatId) + self.tailPath
         data = {}
+
         try:
-            with open(filePath, 'r', encoding=self.encoding) as file:
-                data = json.load(file)
+            data = self.find_document(self.db[chatId], {"_id": chatId})
         except Exception:
             print(Exception)
-
+        
         if whatGet == 'all':
                 return data
         else:

@@ -3,6 +3,7 @@ from database import DatabasesHelper
 
 # Системные настройки
 token = "1099791052:AAGY096bFEz11Xf-VACxfBCCGCdOA8Vv_BU"
+#token = "1166393543:AAFsjHEBYWoHT_jcTtBiN8TmKO4_jQrim4s"
 # Объекты
 bot = telebot.TeleBot(token, threaded=False)
 databaseHelper = DatabasesHelper()
