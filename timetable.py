@@ -382,7 +382,7 @@ def addTimetables(message):
     databaseHelper.save(chatId, 'prevMenuId', prevID)
     databaseHelper.save(chatId, 'status', status)
 
-    bot.send_message(chatId, 'Введите: время(16 00) и предмет(Программная инженерия)', reply_markup=None)
+    bot.send_message(chatId, 'Введите: время(17 00) и предмет(Программная инженерия)', reply_markup=None)
 
 def addTimetableDone(message):
     """
